@@ -1,0 +1,35 @@
+.post-form {
+    margin: 30px 10px;
+}
+
+.post-form-input {
+    margin-bottom: 5px;
+    padding-top: 15px;
+    padding-left: 10px;
+    width: 500px;
+    font-size: 14px;
+    border-radius: 15px;
+    border: 1px solid red;
+    outline: none;
+}
+
+.post-form-text {
+    margin-top: -15px;
+    padding-left: 10px;
+}
+
+.post-form-btn {
+    padding: 5px 15px;
+    margin-top: 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid red;
+    background-color: white;
+}
+
+.post-form-btn:hover {
+    border-color: black;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+}
