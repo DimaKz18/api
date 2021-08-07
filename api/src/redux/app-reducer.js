@@ -1,11 +1,10 @@
 import { appAPI } from "../api/api";
 
 const SET_POSTS = 'APP/SET_POSTS';
-
+const SET_COMMENTS = 'APP/SET_COMMENTS'
 let initialState = {
-    posts: [
-        //{id: 0, title: 'test', body: 'test', comments: [{postId: 0, body: 'test'}]}
-    ],
+    posts: [],
+    comments: []
 }
 
 const appReducer = (state = initialState, action) => {
@@ -16,6 +15,12 @@ const appReducer = (state = initialState, action) => {
                 posts: action.posts
             };
         }
+        case SET_COMMENTS: {
+            return {
+                ...state,
+                comments: action.comments,
+            }
+        }
         default:
             return state;
     }
@@ -25,6 +30,12 @@ const setPosts = (posts) => {
     return {
         type: SET_POSTS,
         posts
+    }
+}
+const setComments = (comments) => {
+    return {
+        type: SET_COMMENTS,
+        comments
     }
 }
 
@@ -58,7 +69,8 @@ export const deletePostThunk = (id) => {
 
 export const getCommentsThunk = (id) => {
     return async (dispatch) => {
-       await appAPI.getComments(id)
+       let data = await appAPI.getComments(id)
+       dispatch(setComments(data.comments))
     }
 }
 

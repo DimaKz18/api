@@ -10,6 +10,7 @@ const Posts = (props) => {
         body={p.body} 
         key={p.id} 
         id={p.id}
+        comments={props.comments}
         updatePost={props.updatePost}
         deletePost={props.deletePost}
         getComments={props.getComments}

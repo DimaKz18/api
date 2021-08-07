@@ -12,6 +12,7 @@ class HeaderContainer extends React.Component {
         return (
             <div className='main-content'>
                 <Posts posts={this.props.posts} 
+                    comments={this.props.comments}
                     addPost={this.props.addPostThunk} 
                     updatePost={this.props.updatePostThunk} 
                     deletePost={this.props.deletePostThunk} 
@@ -25,6 +26,7 @@ class HeaderContainer extends React.Component {
 const mapStateToProps = (state) => {
     return {
         posts: state.app.posts,
+        comments: state.app.comments
     }
 }
 

@@ -1,27 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import './Post.css'
-let Post = (props) => {
+let Post = React.memo ((props) => {
+    
+    let commentsElemenets = props.comments.map(c => {
+        if(c.postId === props.id) {
+            return <p key={c.id}>{c.body}</p>
+        }
+    })
 
-    props.getComments(props.id)
-
-    let [editMode, setEditMode] = useState(false);
+    let [postEditMode, setPostEditMode] = useState(false);
+    let [commentsEditMode, setCommentsEditMode] = useState(false);
     let [title, setTitle] = useState(props.title);  
     let [body, setBody] = useState(props.body);
     let [comment, setComment] = useState('')
 
     const activateEditMode = () => {
-        setEditMode(true);
+        setPostEditMode(true);
     }
 
     const deactivateEditMode = () => {
-        setEditMode(false);
+        setPostEditMode(false);
         props.updatePost(props.id, title, body)
     }
 
     useEffect( () => {
+        props.getComments(props.id)
         setTitle(props.title)
         setBody(props.body)
-    }, [props.title, props.body, props.comments])
+    }, [props.title, props.body, commentsEditMode])
 
     const onTitleChange = (e) => {
         setTitle(e.currentTarget.value)
@@ -41,8 +47,8 @@ let Post = (props) => {
     }
     return (
         <div>
-            {editMode ? 
-                <div className='posts__input'>
+            {postEditMode ? 
+                <div className='posts__input wrapper'>
                     <div>
                         <input className='posts__input-text' onChange={onTitleChange} autoFocus={true} value={title}></input>
                         <input className='posts__input-text' onChange={onBodyChange} autoFocus={true} value={body}></input>
@@ -63,16 +69,24 @@ let Post = (props) => {
                         </div>
                     </div>
                     <div className='comments'>
-                        <p className='comments-text'>Comments: </p>
-                        <input className='comments-input' onChange={onCommentChange} autoFocus={true} value={comment} placeholder='Write your comment'></input>
-                        <div className='comments__btn'>
-                            <button className='btn-text bgcolor-blue' onClick={onAddComment}>Add comment</button>
-                        </div>
+                        {commentsEditMode ? 
+                        <div>
+                            <p className='comments-text'>Comments: </p>
+                            {commentsElemenets}
+                            <input className='comments-input' onChange={onCommentChange} autoFocus={true} value={comment} placeholder='Write your comment'></input>
+                            <div className='comments__btn'>
+                                <button className='btn-text bgcolor-blue' onClick={onAddComment}>Add comment</button>
+                            </div>
+                            <button className='btn-text bgcolor-red' onClick={() => {setCommentsEditMode(false)}}>Close comments</button>
+                        </div> : 
+                        <button className='btn-text bgcolor-green' onClick={() => {setCommentsEditMode(true)}}>Show comments</button>
+                        }
+                        
                     </div>
                 </div>
             }
         </div>
     )
-}
+})
 
 export default Post
